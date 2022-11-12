@@ -1,0 +1,21 @@
+# kubectl create -f crb-view.yml \
+#     --record --save-config
+
+# kubectl describe clusterrolebinding \
+#     view
+
+# kubectl auth can-i get pods \
+#     --as jdoe --all-namespaces
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: view
+subjects:
+- kind: User
+  name: jdoe
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
