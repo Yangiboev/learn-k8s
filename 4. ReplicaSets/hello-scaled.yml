@@ -1,0 +1,24 @@
+apiVersion:  apps/v1
+kind: ReplicaSet
+metadata:
+  name: go-hello
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      type: backend
+      service: go-hello
+  template:
+    metadata:
+      labels:
+        type: backend
+        service: go-hello
+        language: go
+    spec:
+      containers:
+      - name: api
+        image: dellicon/hello:1.0.0
+        livenessProbe:
+          httpGet:
+            path: /hello
+            port: 8080

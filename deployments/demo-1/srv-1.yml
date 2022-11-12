@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-demo-1
+spec:
+  ports:
+  - port: 8080
+  selector:
+    type: api-service
+    service: go-demo-1

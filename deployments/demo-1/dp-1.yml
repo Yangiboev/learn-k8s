@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-demo-1
+spec:
+  selector:
+    matchLabels:
+      type: api-service
+      service: go-demo-1
+  template:
+    metadata:
+      labels:
+        type: api-service
+        service: go-demo-1
+    spec:
+      containers:
+      - name: api-service
+        image: dellicon/todo:1.0.0
+        ports:
+        - containerPort: 8080

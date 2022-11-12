@@ -1,0 +1,50 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-demo-2
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      type: api-service
+      service: go-demo-2
+  minReadySeconds: 1
+  progressDeadlineSeconds: 60
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 2
+  template:
+    metadata:
+      labels:
+        type: api-service
+        service: go-demo-2
+    spec:
+      containers:
+      - name: api-service
+        image: dellicon/todo:1.0.0
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /hello
+            port: 8080
+          periodSeconds: 1
+        livenessProbe:
+          httpGet:
+            path: /hello
+            port: 8080
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: go-demo-2
+# spec:
+#   ports:
+#   - port: 8080
+#   selector:
+#     type: api-service
+#     service: go-demo-2
